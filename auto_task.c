@@ -128,6 +128,10 @@ AutoTask(void *pvParam)
                 sState = EVALBOT_STATE_DRIVING;
                 UARTprintf("button 1 - driving for %u\n", ulDurationTicks);
             }
+            if(!PushButtonGetStatus(BUTTON_2))
+            {
+                SoundTaskPlay(g_pcBumpSound);
+            }
             break;
         }
 
