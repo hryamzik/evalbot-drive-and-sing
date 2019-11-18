@@ -28,28 +28,21 @@
 PART=LM3S9B96
 
 #
-# The base directory for StellarisWare.
-#
-ROOT=../../..
-
-#
 # Include the common make definitions.
 #
-include ${ROOT}/makedefs
+include lib/makedefs
 
 #
 # Where to find source files that do not live in this directory.
 #
-VPATH=../drivers
-VPATH+=../../../utils
+VPATH=lib/drivers
+VPATH+=lib/utils
 
 #
 # Where to find header files that do not live in the source directory.
 #
 IPATH=.
-IPATH+=..
-IPATH+=../../..
-
+IPATH+=lib
 #
 # The default rule, which causes the EvalBot Autonomous Drive Quickstart Example to be built.
 #
@@ -91,7 +84,7 @@ ${COMPILER}/qs-autonomous.axf: ${COMPILER}/startup_${COMPILER}.o
 ${COMPILER}/qs-autonomous.axf: ${COMPILER}/uartstdio.o
 ${COMPILER}/qs-autonomous.axf: ${COMPILER}/ustdlib.o
 ${COMPILER}/qs-autonomous.axf: ${COMPILER}/wav.o
-${COMPILER}/qs-autonomous.axf: ${ROOT}/driverlib/${COMPILER}-cm3/libdriver-cm3.a
+${COMPILER}/qs-autonomous.axf: lib/driverlib/${COMPILER}-cm3/libdriver-cm3.a
 ${COMPILER}/qs-autonomous.axf: qs-autonomous.ld
 SCATTERgcc_qs-autonomous=qs-autonomous.ld
 ENTRY_qs-autonomous=ResetISR
