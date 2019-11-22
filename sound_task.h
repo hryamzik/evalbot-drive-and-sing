@@ -43,7 +43,7 @@ extern "C"
 //*****************************************************************************
 extern void SoundTaskInit(void);
 extern void SoundTask(void *pvParam);
-extern void SoundTaskPlay(const unsigned char *pucSound);
+extern void SoundTaskPlay(const unsigned char *pucSound, const unsigned int pucSoundLen);
 
 //*****************************************************************************
 //

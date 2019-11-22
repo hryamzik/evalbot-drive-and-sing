@@ -23,7 +23,7 @@
 //****************************************************************************
 
 #include "inc/hw_types.h"
-#include "drivers/wav.h"
+#include "drivers/mp3.h"
 #include "drivers/sound.h"
 #include "utils/scheduler.h"
 
@@ -42,13 +42,15 @@
 //****************************************************************************
 const unsigned char *pucNowPlaying;
 const unsigned char *pucNextPlaying;
+unsigned int pucNowPlayingLen;
+unsigned int pucNextPlayingLen;
 
 //****************************************************************************
 //
-// Holds the wave header information for the currently opened audio clip.
+// Holds the mp3 header information for the currently opened audio clip.
 //
 //****************************************************************************
-tWaveHeader sSoundEffectHeader;
+// mp3dec_file_info_t sSoundEffectHeader;
 
 //****************************************************************************
 //
@@ -82,30 +84,35 @@ SoundTask(void *pvParam)
                 // clear the "next" clip pointer.
                 //
                 pucNowPlaying = pucNextPlaying;
+                pucNowPlayingLen = pucNextPlayingLen;
                 pucNextPlaying = 0;
+                pucNextPlayingLen = 0;
 
                 //
                 // Open the new clip as a wave file
                 //
-                if(WaveOpen((unsigned long *)pucNowPlaying,
-                            &sSoundEffectHeader) == WAVE_OK)
-                {
-                    //
-                    // If the clip opened okay as a wave file, then start the
-                    // clip playing and change our state to PLAYING
-                    //
-                    ulState = SOUND_STATE_PLAYING;
-                    WavePlayStart(&sSoundEffectHeader);
-                }
+                Mp3PlayStart((unsigned char *)pucNowPlaying, pucNowPlayingLen);
+                ulState = SOUND_STATE_PLAYING;
 
-                //
-                // Otherwise the clip was not opened successfully in which
-                // case clear the current playing clip and remain in IDLE state
-                //
-                else
-                {
-                    pucNowPlaying = 0;
-                }
+                // if(WaveOpen((unsigned long *)pucNowPlaying,
+                //             &sSoundEffectHeader) == WAVE_OK)
+                // {
+                //     //
+                //     // If the clip opened okay as a wave file, then start the
+                //     // clip playing and change our state to PLAYING
+                //     //
+                //     ulState = SOUND_STATE_PLAYING;
+                //     WavePlayStart(&sSoundEffectHeader);
+                // }
+
+                // //
+                // // Otherwise the clip was not opened successfully in which
+                // // case clear the current playing clip and remain in IDLE state
+                // //
+                // else
+                // {
+                //     pucNowPlaying = 0;
+                // }
             }
             break;
         }
@@ -120,13 +127,14 @@ SoundTask(void *pvParam)
             // be called periodically, and it will keep the wave driver playing
             // the audio clip until it is finished.
             //
-            if(WavePlayContinue(&sSoundEffectHeader))
+            if(Mp3PlayContinue())
             {
                 //
                 // Clip is done playing, so clear the playing clip pointer and
                 // set the state back to IDLE.
                 //
                 pucNowPlaying = 0;
+                pucNowPlayingLen = 0;
                 ulState = SOUND_STATE_IDLE;
             }
             break;
@@ -140,6 +148,8 @@ SoundTask(void *pvParam)
         {
             pucNowPlaying = 0;
             pucNextPlaying = 0;
+            pucNowPlayingLen = 0;
+            pucNextPlayingLen = 0;
             ulState = SOUND_STATE_IDLE;
             break;
         }
@@ -164,10 +174,11 @@ SoundTaskInit(void *pvParam)
 //
 //****************************************************************************
 void
-SoundTaskPlay(const unsigned char *pucSound)
+SoundTaskPlay(const unsigned char *pucSound, const unsigned int pucSoundLen)
 {
     //
     // Set the "next" pointer to point at the requested clip.
     //
     pucNextPlaying = pucSound;
+    pucNextPlayingLen = pucSoundLen;
 }

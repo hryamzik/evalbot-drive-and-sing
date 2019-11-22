@@ -37,12 +37,14 @@ include lib/makedefs
 #
 VPATH=lib/drivers
 VPATH+=lib/utils
+VPATH+=lib/minimp3
 
 #
 # Where to find header files that do not live in the source directory.
 #
 IPATH=.
 IPATH+=lib
+IPATH+=lib/minimp3
 #
 # The default rule, which causes the EvalBot Autonomous Drive Quickstart Example to be built.
 #
@@ -83,7 +85,7 @@ ${COMPILER}/qs-autonomous.axf: ${COMPILER}/sounds.o
 ${COMPILER}/qs-autonomous.axf: ${COMPILER}/startup_${COMPILER}.o
 ${COMPILER}/qs-autonomous.axf: ${COMPILER}/uartstdio.o
 ${COMPILER}/qs-autonomous.axf: ${COMPILER}/ustdlib.o
-${COMPILER}/qs-autonomous.axf: ${COMPILER}/wav.o
+${COMPILER}/qs-autonomous.axf: ${COMPILER}/mp3.o
 ${COMPILER}/qs-autonomous.axf: lib/driverlib/${COMPILER}-cm3/libdriver-cm3.a
 ${COMPILER}/qs-autonomous.axf: qs-autonomous.ld
 SCATTERgcc_qs-autonomous=qs-autonomous.ld

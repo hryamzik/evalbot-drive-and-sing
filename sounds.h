@@ -41,6 +41,7 @@ extern "C"
 //
 //*****************************************************************************
 extern const unsigned char g_pcBumpSound[];
+extern const unsigned int  g_pcBumpSound_len;
 extern const unsigned char g_pcReverseSound[];
 extern const unsigned char g_pcHornSound[];
 

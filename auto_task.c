@@ -130,7 +130,7 @@ AutoTask(void *pvParam)
             }
             if(!PushButtonGetStatus(BUTTON_2))
             {
-                SoundTaskPlay(g_pcBumpSound);
+                SoundTaskPlay(g_pcBumpSound, g_pcBumpSound_len);
             }
             break;
         }
@@ -151,7 +151,7 @@ AutoTask(void *pvParam)
                 //
                 // Play bumper sound
                 //
-                SoundTaskPlay(g_pcBumpSound);
+                SoundTaskPlay(g_pcBumpSound, g_pcBumpSound_len);
 
                 //
                 // Update random entropy
@@ -183,7 +183,7 @@ AutoTask(void *pvParam)
                 //
                 // Play bumper sound
                 //
-                SoundTaskPlay(g_pcBumpSound);
+                SoundTaskPlay(g_pcBumpSound, g_pcBumpSound_len);
 
                 //
                 // Update random entropy
