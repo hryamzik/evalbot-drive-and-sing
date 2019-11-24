@@ -147,8 +147,6 @@ Mp3PlayStart(unsigned char *pulAddress, const unsigned int len)
 static unsigned long
 PcmRead(unsigned char *pucBuffer)
 {
-    int i;
-
     unsigned long ulBytesToRead;
     short pcm[MINIMP3_MAX_SAMPLES_PER_FRAME];
 
@@ -185,7 +183,7 @@ PcmRead(unsigned char *pucBuffer)
     // 8-bit sign conversion, and also so that the buffer can be handled by
     // uDMA.
     
-    for(i = 0; i < info.frame_bytes; i++)
+    for(int i = 0; i < info.frame_bytes; i++)
     {
         pucBuffer[i] = pcm[i];
     }
